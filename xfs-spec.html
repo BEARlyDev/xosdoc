@@ -79,74 +79,94 @@
 			
 			
 			<div class="grid-wrap">
-			
-			<article id="navbutton" class="grid col-full">
-				<h2>Buttons</h2>
+			<article class="grid col-full">
+				<h2>Introduction</h2>
 				<p>
-					<a href="#" class="button">First button</a>
-					<a href="#" class="button">Second button</a>
+				XFS or Experimental File System is a file system architecture designed for XOS (Experimental Operating System). 
+				XFS is a simple filesystem which has no directory structure. </br>
+				XFS spans the entire disk in XSM (Experimental String Machine). 
+				The disk consists of a linear sequence of 512 blocks. 
+				The basic unit of disk in XSM is a <b><i>block</i></b>. 
+				The size of the block is equal to that of page in memory (512 words). 
+				The total capacity of the disk is 512 * 512  = <b>262144</b> words. </br>
+				Any particular block in the disk is addressed by the corresponding number in the sequence 0 to 511 known as the <em>block number</em>. 
+
 				</p>
 			</article>
-		
-			<article id="navtogg" class="grid col-full">
-				<h2>Toggles</h2>
-						<ul class="toggle-view">
-							<li>
-								<h5 class="toggle-title">General <span class="toggle-title-detail">- Main features</span></h5>
-								<div class="toggle grid-wrap">                     
-									<ul class="grid col-one-half mq3-col-full">
-										<li>Lorem ipsum</li>
-										<li>Cras</li>
-										<li>Dolor Euismod Cras</li>
-										<li>Sit Amet</li>
-										<li>Ornare Nullam Dolor</li> 
-										<li>Consectetur</li>
-									</ul>
-									<ul class="grid col-one-half mq3-col-full">
-										<li>Euismod Dapibus</li>
-										<li>Magna</li>
-										<li>Lorem Ligula Elit</li>
-										<li>Dolor Vulputate</li>
-										<li>Dapibus</li> 
-										<li>Dolor Mattis Ipsum</li>
-									</ul>
-								</div>       
-							</li>
-							
-							<li>
-								<h5 class="toggle-title">Lorem <span class="toggle-title-detail">- Ipsum dolor</span></h5>
-								<div class="toggle">                     
-									<p>Etiam porta sem malesuada magna mollis euismod. Nulla vitae elit libero, a pharetra augue. Sed posuere consectetur est at lobortis. Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec sed odio dui.</p>
-								</div>       
-							</li>
-						</ul>
+			
+			
+			<article class="grid col-full">			
+				<h2>Disk Organization</h2>
+				<p>The disk is organized by the file system as shown below.</p>
+				
+				<table>
+				<tr> <th>Block No</th> <th>Contents</th> </tr>
+				<tr> <td>0</td> <td>OS Startup Code</td> </tr>
+				<tr> <td>1</td> <td>Page Fault Handler</td> </tr>
+				<tr> <td>2</td> <td>Timer Interrupt Routine </td> </tr>
+				<tr> <td>3</td> <td>Interrupt 1 Routine </td> </tr>
+				<tr> <td>...</td> <td>...</td> </tr>
+				<tr> <td>9</td> <td>Interrupt 7 Routine </td> </tr>
+				<tr> <td>10</td> <td>File Allocation Table (FAT) </td> </tr>
+				<tr> <td>11</td> <td>Disk Free List </td> </tr>
+				<tr> <td>12</td> <td>Unallocated </td> </tr>
+				<tr> <td>13 -- 15</td> <td>INIT Code </td> </tr>
+				<tr> <td>16 -- 447</td> <td>User Blocks </td> </tr>
+				<tr> <td>448 -- 511</td> <td>Swap Area </td> </tr>
+				</table>
+				
+				</br>
+				<ul style="list-style-type:disc">
+					<li> <p> <b>OS Startup Code</b> : Block 0 is the location of operating system code required during machine boot.  </p> </li>
+					<li> <p> <b>Exception and Interrupt Handler</b> : Blocks from 1 - 9 is intended for ISR (Interrupt Service Routines) for interrupt and exception handling which is done by the Operating System. </p> </li>
+					<li> <p> <b>FAT</b> or File Allocation table contains details about the files stored on the disk. </p> </li>
+					<li> <p> <b>Disk Free List</b> has 512 entries, one entry for each block in the disk, indicating whether it is used or unused. </p> </li>
+					<li> <p> <b>INIT</b> Code It has the code for INIT process, which is the first user program run by the OS after startup. </p> </li>
+					<li> <p> <b>User Blocks</b>. Blocks from 16 to 447 are used to store user data files and user programs. </p> </li>
+					<li> <p> <b>Swap Area</b> The file system also provides a swap area for the operating system to implement demand paging. Swap Area is reserved exclusively for use by the operating system. </p> </li>
+				</ul>
 			</article>
 			
-			<article id="navtabs" class="grid col-full">
-				<h2>Tabs</h2>
-				<div class="">
-					<ul class="tabs clearfix">
-					    <li><a href="#tab1">First</a></li>
-					    <li><a href="#tab2">Second</a></li>
-					    <li><a href="#tab3">Third</a></li>
-					</ul>
-					<div class="tab_container">
-					    <article id="tab1" class="tab_content">
-					        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
-					    </article>
-					    
-						<article id="tab2" class="tab_content">
-							<h6>Heading</h6>
-					        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
-					    </article>
-					    
-					    <article id="tab3" class="tab_content">
-				    		<h6>Heading</h6>
-				            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
-					    </article>
-					 </div>
-				  </div>
+			<article class="grid col-full">			
+				<h2>File</h2>
+				<p>A file is a collection of blocks identified by a name. 
+				Every file in the disk has a <i>Basic Block</i> and several <i>Data Blocks</i>. 
+				They are defined as follows:</p>
+				<ul style="list-style-type:disc">
+					<li><p> <b>Data Blocks</b> : These blocks contain the actual data of a file. </p></li>
+					<li>
+						<p> <b>Basic Block</b> : It consists of information about the data in a file. </p>
+						<table>
+							<tr> <td><b>Index</b></td> <td> 0--255 </td><td> 256--511 </td></tr>
+							<tr> <td><b>Content</b></td> <td> Block List </td><td> Header </td></tr>
+						</table>
+						
+						<ul style="list-style-type:disc">
+							<li> Block List : It contains block addresses of all data blocks in the file.
+								<ul>
+									<li>The block list consists of 256 entries.</li>
+									<li>Each entry is of size one word.</li>
+									<li>The value contained in an entry of the block list gives the	block number of the corresponding data block in the disk.
+									All invalid entries are marked with 0.</li>
+								</ul>
+								
+							</li>
+</li>
+							<li> </li>
+						</ul>
+					</li>
+				</ul>
+				
 			</article>
+			
+			<article class="grid col-full">			
+			
+			</article>
+			
+			<article class="grid col-full">			
+			
+			</article>
+			
 			
 			</div> <!-- 100%articles-->
 		
