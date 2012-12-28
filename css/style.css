@@ -299,6 +299,21 @@ nav a, menu a { text-decoration: none; color: #555; }
 header .arrow {color: #999; font-style: italic;}
 .arrow:hover {color: #0078CF; }
 
+a.sec:
+{
+padding:0;
+margin:0;
+float:left;
+}
+a.sec:before{
+	content:"\27a4  "
+}
+a.subsec:before{
+	content:" \00A0 \00A0 \00A0 \00A0 \00A0 \2794 \00A0  \00A0"
+}
+a.subsubsec:before{
+	content:"\00A0 \00A0 \00A0 \00A0 \00A0 \00A0 \00A0 \00A0 \00A0 \00A0 -  \00A0  \00A0 "
+}
 
 /* -- FOOTER
 ------------------------------------------------------------- */
