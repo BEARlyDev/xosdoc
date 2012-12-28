@@ -66,11 +66,40 @@
 		
 			<menu>
 				<ul>
-					<li><a href="#navintro" class="sec" >Intro</a></li>
-					<li><a href="#navdiskorg" class="sec">Disk Organization</a></li>
-					<li><a href="#navfile" class="sec">File</a></li>
-					<li><a href="#navfat" class="sec" >File Allocation Table (FAT)</a></li>				
-					<li><a href="#navdfl" class="sec" >Disk Free Lists</a></li>
+					<li><a href="#navintro" class="sec" >Introduction</a></li>
+					<li><a href="#navmemorg" class="sec">Memory Organization</a></li>
+					<li><a href="#navpromgmt" class="sec">Process Management</a></li>
+						<li><a href="#navpromgmt_intro" class="subsec">Introduction</a></li>
+						<li><a href="#navpromgmt_prostruct" class="subsec">Process Structure</a></li>
+						<li><a href="#navpromgmt_pcb" class="subsec">Process Control Block (PCB)</a></li>
+						<li><a href="#navpromgmt_readylist" class="subsec">Ready List</a></li>
+						<li><a href="#navpromgmt_pagetbl" class="subsec">The Per-Process Page Tables</a></li>
+						<li><a href="#navpromgmt_multiprog" class="subsec">Multiprogramming</a></li>
+						<li><a href="#navpromgmt_init" class="subsec">INIT and User Processes</a></li>
+					
+					<li><a href="#navmemmgmt" class="sec" >Memory Management</a></li>	
+						<li><a href="#navmemmgmt_intro" class="subsec" >Introduction</a></li>
+						<li><a href="#navmemmgmt_paging" class="subsec" >Paging</a></li>
+						<li><a href="#navmemmgmt_mfl" class="subsec" >Memory Free List</a></li>
+						<li><a href="#navmemmgmt_vm" class="subsec" >Virtual Memory</a></li>	
+											
+					<li><a href="#navfiles" class="sec" >Files</a></li>
+						<li><a href="#navfiles_fat" class="subsec" >File Allocation Table (FAT)</a></li>
+						<li><a href="#navfiles_dfl" class="subsec" >Disk Free List</a></li>
+						<li><a href="#navfiles_swoft" class="subsec" >System Wide Open File Table</a></li>
+						<li><a href="#navfiles_scratchpad" class="subsec" >Scratchpad</a></li>
+					
+					<li><a href="#navsyscalls" class="sec" >System Calls</a></li>
+						<li><a href="#navsyscalls_intro" class="subsec" >Introduction</a></li>
+						<li><a href="#navsyscalls_machine" class="subsec" >Machine System Calls</a></li>
+						<li><a href="#navsyscalls_file" class="subsec" >File System Calls</a></li>
+						<li><a href="#navsyscalls_process" class="subsec" >Process System Calls</a></li>
+						
+					<li><a href="#navsysroutines" class="sec" >System Routines</a></li>
+						<li><a href="#navsysroutines_osstartup" class="subsec" >OS Startup Code</a></li>
+						<li><a href="#navsysroutines_exhandler" class="subsec" >Exception Handler</a></li>
+						<li><a href="#navsysroutines_timer" class="subsec" >Timer Interrupt Routine</a></li>
+						<li><a href="#navsysroutines_interrupt" class="subsec" >Interrupt Routines</a></li>
 				</ul>
 			</menu>
 		</aside>
@@ -83,44 +112,65 @@
 			<article  id="navintro" class="grid col-full">
 				<h2>Introduction</h2>
 				<p>
-				XFS or Experimental File System is a file system architecture designed for XOS (Experimental Operating System). 
-				XFS is a simple filesystem which has no directory structure. </br>
-				XFS spans the entire disk in XSM (Experimental String Machine). 
-				The disk consists of a linear sequence of 512 blocks. 
-				The basic unit of disk in XSM is a <b><i>block</i></b>. 
-				The size of the block is equal to that of page in memory (512 words). 
-				The total capacity of the disk is 512 * 512  = <b>262144</b> words. </br>
-				Any particular block in the disk is addressed by the corresponding number in the sequence 0 to 511 known as the <em>block number</em>. 
-
+				XOS (Experimental Operating System) is an experimental operating system  which is designed to be run on the  XSM  (Experimental String Machine) architecture which is a simulated machine hardware. XOS is intended as an instructional tool to help students learn essential concepts of an operating system. 
 				</p>
+				<p>
+				XOS is programmed using a custom language, SPL (System Programmer's Language) which compiles to XSM compatible code. (Refer SPL Specification) Application programs for XSM are written in APL (Application Programmer's Language). (Refer APL Specification ) 
+				</p>
+				<p>
+The programs, data and operating system code is stored on a disk which has an XFS (Experimental File System) in it. (Refer XFS Specification)
+				</p>
+				
+				
+				The various functionalities of XOS include
+<ul>
+<li> <b>Process Management</b>, includes scheduling and dispatching processes to the CPU. XOS is capable of \textit{multiprogramming} (the ability to run more than one process simultaneously). (Refer <a href="#navpromgmt" >Process Management</a>)
+</li>
+<li> <b>Memory Management</b>, involves allocating memory for processes, demand paging (loading memory pages from the disk as and when required). (Refer <a href="#navmemmgmt"  >Memory Management</a>) </li>
+
+<li> <b>System Calls</b>. XOS provides various system calls for the user processes to execute certain kernel level operations. (Refer <a href="#navsyscalls"  >System Calls</a> ) </li>
+</ul>
+
 			</article>
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top &uarr;</a>
 			</div>			
 			
-			<article id="navdiskorg" class="grid col-full">			
-				<h2>Disk Organization</h2>
-				<p>The disk is organized by the file system as shown below.</p>
-				
-				<table class="doctable">
-					<tr> <th>Block No</th> <th>Contents</th> </tr>
-					<tr> <td>0</td> <td>OS Startup Code</td> </tr>
-					<tr> <td>1</td> <td>Page Fault Handler</td> </tr>
-					<tr> <td>2</td> <td>Timer Interrupt Routine </td> </tr>
-					<tr> <td>3</td> <td>Interrupt 1 Routine </td> </tr>
-					<tr> <td>...</td> <td>...</td> </tr>
-					<tr> <td>9</td> <td>Interrupt 7 Routine </td> </tr>
-					<tr> <td>10</td> <td>File Allocation Table (FAT) </td> </tr>
-					<tr> <td>11</td> <td>Disk Free List </td> </tr>
-					<tr> <td>12</td> <td>Unallocated </td> </tr>
-					<tr> <td>13 -- 15</td> <td>INIT Code </td> </tr>
-					<tr> <td>16 -- 447</td> <td>User Blocks </td> </tr>
-					<tr> <td>448 -- 511</td> <td>Swap Area </td> </tr>
-				</table>
-				
+			
+			<article id="navmemorg" class="grid col-full">			
+				<h2>Memory Organization</h2>
+				<p>The operating system organizes memory as given below</p>
+				<img src="doc/memorg.png" />
+				• ,  
+4
+• OS Startup code, loads the INIT process to memory, data structures
+like FAT and Disk Free List, and Interrupt Routines from the disk. Refer
+Section 7.1
+• Per-Process Page Tables, used for address translation of logical ad-
+dresses to physical address. Refer Section 3.5
+• Memory Free List, is a list of free memory locations in the memory.
+Refer Section 4.3
+• System-wide Open File Table, contains a details of files which are
+opened by the processes. Refer Section 5.3
+• Ready List of PCBs, is a list of Process Control Blocks, which indicates
+the ready and terminated processes. Refer Section 3.3
+• File Allocation Table, contains details about files stored on the disk,
+Refer Section 5.1
+• Disk Free List, contains details about used and used blocks in the disk,
+Refer Section 5.2
+• Page Fault Handler, contains the kernel code to be executed during a
+page fault exception, Refer Section 7.2
+• Timer Interrupt Routine, contains the kernel code to be executed
+during a timer interrupt. Refer Section 7.3
+• Interrupt Routines, contains kernel code to be executed during inter-
+rupts (1 to 7). Refer Section 7.4
+• INIT and User Programs, is the memory space allocated for user pro-
+grams in execution. Refer Section 3.7
+
 				<br/><br/>
 				<ul style="list-style-type:disc">
-					<li> <p> <b>OS Startup Code</b> : Block 0 is the location of operating system code required during machine boot.  </p> </li>
+					<li> <p> <b>ROM Code</b> : Read Only Memory is hard coded assembly code which
+loads the operating system startup code from the disk.  </p> (Refer Section 3.3 of XSM Specification)</li>
 					<li> <p> <b>Exception and Interrupt Handler</b> : Blocks from 1 - 9 is intended for ISR (Interrupt Service Routines) for interrupt and exception handling which is done by the Operating System. </p> </li>
 					<li> <p> <b>FAT</b> or File Allocation table contains details about the files stored on the disk. </p> </li>
 					<li> <p> <b>Disk Free List</b> has 512 entries, one entry for each block in the disk, indicating whether it is used or unused. </p> </li>
