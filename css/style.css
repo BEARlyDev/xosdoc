@@ -66,7 +66,8 @@ sub, sup{font-size:75%; line-height:0; position:relative; vertical-align:baselin
 sup{top:-0.5em}
 sub{bottom:-0.25em}
 dd{margin:0 0 0 40px} dt{font-weight: 700;}
-ul, ol{list-style:none; list-style-image:none; margin:0; padding:0;}
+
+aside ul, header ul, footer ul, ol{list-style:none; list-style-image:none; margin:0; padding:0;}
 img{border:0; -ms-interpolation-mode:bicubic; vertical-align:middle}
 svg:not(:root){overflow:hidden}
 figure{margin:0}
@@ -261,7 +262,7 @@ body{width:100%; }
 ------------------------------------------------------------- */
 figure { max-height: 100%; overflow: hidden;}
 figure figcaption { }
-img { max-width: 100%; height: auto; width: auto; }
+img { max-width: 80%; height: auto; width: auto; margin-left:10%;}
 a img {
     -webkit-transition: opacity 1s ease;
     -moz-transition: opacity 1s ease;
@@ -315,6 +316,7 @@ a.subsubsec:before{
 	content:"\00A0 \00A0 \00A0 \00A0 \00A0 \00A0 \00A0 \00A0 \00A0 \00A0 -  \00A0  \00A0 "
 }
 
+a.sec:hover a.subsec:hover a.subsubsec:hover{color: #0078CF; }
 div.syntax{
 padding-top: 10px;
 padding-bottom: 10px;
@@ -340,7 +342,7 @@ footer li:last-child { margin-right: 0; padding-right: 0; border-right: none; }
 /* -- HOME-PAGE
 ------------------------------------------------------------- */
 /* Services */
-.services aside { color: #999; padding-top: 1em; border-top: 1px solid #DDD;}
+.services aside { color: #999; padding-top: 1em; border-top: 1px solid #DDD; }
 .services aside:after, .services h5:after { content: ""; display: block; height: 1px; width: 1em; background: #DDD; margin: 1em 0; }
 
 /* Slider */
@@ -394,7 +396,7 @@ html[xmlns] .slides {display: block;}
 
 .works-page .works figure { margin-bottom: 3em;}
 
-.main aside{margin-bottom: 3em}
+.main aside{margin-bottom: 3em ;  }
 .main aside menu{padding: 0 0 0 1em; line-height: 2em;}
 .main aside menu a{color: #999;}
 .main aside menu .buttonactive {color: #0078CF }
