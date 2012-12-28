@@ -58,18 +58,27 @@
 
 		<header class="grid col-full">
 			<hr>
-			<p class="fleft">Services</p>
+			<p class="fleft">File System (XFS)</p>
 		</header>
 
 
 		<aside class="grid col-one-quarter mq2-col-full">
-			<p class="mbottom">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis.
-			</p>
+		
 			<menu>
 				<ul>
-					<li><a href="#navbutton" class="arrow">Buttons</a></li>
-					<li><a href="#navtogg" class="arrow">Toggles</a></li>
-					<li><a href="#navtabs" class="arrow">Tabs</a></li>
+					<li><a href="#navintro" class="sec" >Intro</a></li>
+					<li><a href="#navdiskorg" class="sec">Disk Organization</a></li>
+					<li><a href="#navfile" class="sec">File</a></li>
+						<li><a href="#navfile_filetypes" class="subsec">Tabs</a></li>
+							<li><a href="#navfile_filetypes_data" class="subsubsec">Data files
+</a></li>
+							<li><a href="#navfile_filetypes_exec" class="subsubsec">Executable files
+</a></li>
+					<li><a href="#navfat" class="sec" >File Allocation Table (FAT)
+</a></li>					<li><a href="#navfat_fatstruct" class="subsec">Structure of FAT
+</a></li>
+					<li><a href="#navdfl" class="sec" >Disk Free List
+s</a></li>
 				</ul>
 			</menu>
 		</aside>
@@ -99,23 +108,23 @@
 				<h2>Disk Organization</h2>
 				<p>The disk is organized by the file system as shown below.</p>
 				
-				<table>
-				<tr> <th>Block No</th> <th>Contents</th> </tr>
-				<tr> <td>0</td> <td>OS Startup Code</td> </tr>
-				<tr> <td>1</td> <td>Page Fault Handler</td> </tr>
-				<tr> <td>2</td> <td>Timer Interrupt Routine </td> </tr>
-				<tr> <td>3</td> <td>Interrupt 1 Routine </td> </tr>
-				<tr> <td>...</td> <td>...</td> </tr>
-				<tr> <td>9</td> <td>Interrupt 7 Routine </td> </tr>
-				<tr> <td>10</td> <td>File Allocation Table (FAT) </td> </tr>
-				<tr> <td>11</td> <td>Disk Free List </td> </tr>
-				<tr> <td>12</td> <td>Unallocated </td> </tr>
-				<tr> <td>13 -- 15</td> <td>INIT Code </td> </tr>
-				<tr> <td>16 -- 447</td> <td>User Blocks </td> </tr>
-				<tr> <td>448 -- 511</td> <td>Swap Area </td> </tr>
+				<table class="doctable">
+					<tr> <th>Block No</th> <th>Contents</th> </tr>
+					<tr> <td>0</td> <td>OS Startup Code</td> </tr>
+					<tr> <td>1</td> <td>Page Fault Handler</td> </tr>
+					<tr> <td>2</td> <td>Timer Interrupt Routine </td> </tr>
+					<tr> <td>3</td> <td>Interrupt 1 Routine </td> </tr>
+					<tr> <td>...</td> <td>...</td> </tr>
+					<tr> <td>9</td> <td>Interrupt 7 Routine </td> </tr>
+					<tr> <td>10</td> <td>File Allocation Table (FAT) </td> </tr>
+					<tr> <td>11</td> <td>Disk Free List </td> </tr>
+					<tr> <td>12</td> <td>Unallocated </td> </tr>
+					<tr> <td>13 -- 15</td> <td>INIT Code </td> </tr>
+					<tr> <td>16 -- 447</td> <td>User Blocks </td> </tr>
+					<tr> <td>448 -- 511</td> <td>Swap Area </td> </tr>
 				</table>
 				
-				</br>
+				<br/><br/>
 				<ul style="list-style-type:disc">
 					<li> <p> <b>OS Startup Code</b> : Block 0 is the location of operating system code required during machine boot.  </p> </li>
 					<li> <p> <b>Exception and Interrupt Handler</b> : Blocks from 1 - 9 is intended for ISR (Interrupt Service Routines) for interrupt and exception handling which is done by the Operating System. </p> </li>
