@@ -15,11 +15,6 @@
 	<meta name="viewport" content="width=device-width">
 	
 	<meta name="description" content="Designa Studio, a HTML5 / CSS3 template.">
-	<meta name="author" content="Sylvain Lafitte, Web Designer, sylvainlafitte.com">
-	
-	<title>Documentation // eXperimental Operating System</title>
-	
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 	<link rel="shortcut icon" type="image/png" href="favicon.png">
 	
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
@@ -112,24 +107,23 @@
 			<article  id="navintro" class="grid col-full">
 				<h2>Introduction</h2>
 				<p>
-				XOS (Experimental Operating System) is an experimental operating system  which is designed to be run on the  XSM  (Experimental String Machine) architecture which is a simulated machine hardware. XOS is intended as an instructional tool to help students learn essential concepts of an operating system. 
+				XOS (Experimental Operating System) is an experimental operating system  which is designed to be run on the  XSM  (Experimental String Machine) architecture which is a simulated machine hardware. XOS is 	intended as an instructional tool to help students learn various aspects about operating systems.
 				</p>
 				<p>
 				XOS is programmed using a custom language, SPL (System Programmer's Language) which compiles to XSM compatible code. (Refer SPL Specification) Application programs for XSM are written in APL (Application Programmer's Language). (Refer APL Specification ) 
 				</p>
 				<p>
-The programs, data and operating system code is stored on a disk which has an XFS (Experimental File System) in it. (Refer XFS Specification)
+				The programs, data and operating system code is stored on a disk which has an XFS (Experimental File 					System) in it. (Refer XFS Specification)
 				</p>
 				
 				
 				The various functionalities of XOS include
-<ul>
-<li> <b>Process Management</b>, includes scheduling and dispatching processes to the CPU. XOS is capable of \textit{multiprogramming} (the ability to run more than one process simultaneously). (Refer <a href="#navpromgmt" >Process Management</a>)
-</li>
-<li> <b>Memory Management</b>, involves allocating memory for processes, demand paging (loading memory pages from the disk as and when required). (Refer <a href="#navmemmgmt"  >Memory Management</a>) </li>
-
-<li> <b>System Calls</b>. XOS provides various system calls for the user processes to execute certain kernel level operations. (Refer <a href="#navsyscalls"  >System Calls</a> ) </li>
-</ul>
+				<ul>
+				<li> <b>Process Management</b>, includes scheduling and dispatching processes to the CPU. XOS is 					capable of \textit{multiprogramming} (the ability to run more than one process simultaneously).	 					(Refer <a href="#navpromgmt" >Process Management</a>)
+				</li>
+				<li> <b>Memory Management</b>, involves allocating memory for processes, demand paging (loading 				memory pages from the disk as and when required). (Refer <a href="#navmemmgmt"  >Memory 				Management</a>) </li>
+				<li> <b>System Calls</b>. XOS provides various system calls for the user processes to execute certain 					kernel level operations. (Refer <a href="#navsyscalls"  >System Calls</a> ) </li>
+				</ul>
 
 			</article>
 			<div class="up grid col-one-third" style="float:right">
@@ -141,158 +135,254 @@ The programs, data and operating system code is stored on a disk which has an XF
 				<h2>Memory Organization</h2>
 				<p>The operating system organizes memory as given below</p>
 				<img src="doc/memorg.png" />
-				• ,  
-4
-• OS Startup code, loads the INIT process to memory, data structures
-like FAT and Disk Free List, and Interrupt Routines from the disk. Refer
-Section 7.1
-• Per-Process Page Tables, used for address translation of logical ad-
-dresses to physical address. Refer Section 3.5
-• Memory Free List, is a list of free memory locations in the memory.
-Refer Section 4.3
-• System-wide Open File Table, contains a details of files which are
-opened by the processes. Refer Section 5.3
-• Ready List of PCBs, is a list of Process Control Blocks, which indicates
-the ready and terminated processes. Refer Section 3.3
-• File Allocation Table, contains details about files stored on the disk,
-Refer Section 5.1
-• Disk Free List, contains details about used and used blocks in the disk,
-Refer Section 5.2
-• Page Fault Handler, contains the kernel code to be executed during a
-page fault exception, Refer Section 7.2
-• Timer Interrupt Routine, contains the kernel code to be executed
-during a timer interrupt. Refer Section 7.3
-• Interrupt Routines, contains kernel code to be executed during inter-
-rupts (1 to 7). Refer Section 7.4
-• INIT and User Programs, is the memory space allocated for user pro-
-grams in execution. Refer Section 3.7
-
-				<br/><br/>
-				<ul style="list-style-type:disc">
-					<li> <p> <b>ROM Code</b> : Read Only Memory is hard coded assembly code which
-loads the operating system startup code from the disk.  </p> (Refer Section 3.3 of XSM Specification)</li>
-					<li> <p> <b>Exception and Interrupt Handler</b> : Blocks from 1 - 9 is intended for ISR (Interrupt Service Routines) for interrupt and exception handling which is done by the Operating System. </p> </li>
-					<li> <p> <b>FAT</b> or File Allocation table contains details about the files stored on the disk. </p> </li>
-					<li> <p> <b>Disk Free List</b> has 512 entries, one entry for each block in the disk, indicating whether it is used or unused. </p> </li>
-					<li> <p> <b>INIT</b> Code It has the code for INIT process, which is the first user program run by the OS after startup. </p> </li>
-					<li> <p> <b>User Blocks</b>. Blocks from 16 to 447 are used to store user data files and user programs. </p> </li>
-					<li> <p> <b>Swap Area</b> The file system also provides a swap area for the operating system to implement demand paging. Swap Area is reserved exclusively for use by the operating system. </p> </li>
-				</ul>
-			</article>
-			<div class="up grid col-one-third" style="float:right">
-			<a href="#navtop" title="Go back up"> top &uarr;</a>
-			</div>
-
-			
-			<article id="navfile" class="grid col-full">			
-				<h2>File</h2>
-				<p>A file is a collection of blocks identified by a name. 
-				Every file in the disk has a <i>Basic Block</i> and several <i>Data Blocks</i>. 
-				They are defined as follows:</p>
-				<ul style="list-style-type:disc">
-					<li><p> <b>Data Blocks</b> : These blocks contain the actual data of a file. </p></li>
-					<li><p> <b>Basic Block</b> : It consists of information about the data in a file. </p>
-						<table class="doctable">
-							<tr> <td><b>Index</b></td> <td> 0--255 </td><td> 256--511 </td></tr>
-							<tr> <td><b>Content</b></td> <td> Block List </td><td> Header </td></tr>
-						</table>
-						<br/>
-						<ul>
-							<li> <b>Block List</b> : It contains block addresses of all data blocks in the file.
-								<ul>
-									<li>The block list consists of 256 entries.</li>
-									<li>Each entry is of size one word.</li>
-									<li>The value contained in an entry of the block list gives the	block number of the corresponding data block in the disk.
-									All invalid entries are marked with 0.</li>
-								</ul>
-							</li>
-							<li> <b>Header</b>  The header contains the meta information relating to the file. The header fields is 256 words long. It can be used to store details like permissions, ownership etc related to a file, similar to inode in Linux and UNIX operating systems. However XOS does not use the header field.
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<img src="doc/address_translation.png" width="20%" />
-				<br/><b> Example </b>
 				<ul>
-					<li>Consider the example illustrated by figure 3. From the figure, we infer the following.</li>
-					<li>The zeroth data block of the file resides in the disk in block number 240</li>
-					<li>The first data block of the file resides in the disk in block number 420. The second data block of the file resides in the disk in block number  The third data block of the file resides in the disk in block number 315 </li>
-					<li> There are no more data blocks for the file. So rest of the entries of the
-basic block are marked as 0 </li>
+				<li> <b>OS Startup code</b>, loads the INIT process to memory, data structures like FAT and Disk Free List, and Interrupt Routines from the disk. (Refer Section 7.1)</li>
+				<li> <b>Per-Process Page Tables</b>, used for address translation of logical addresses to physical address. (Refer ...)</li>
+				<li><b> Memory Free List</b>, is a list of free memory locations in the memory. Refer Section 4.3</li>
+				<li><b> System-wide Open File Table,</b> contains a details of files which are opened by the processes. Refer Section 5.3 </li>
+				<li><b>Ready List of PCBs</b>, is a list of Process Control Blocks, which indicates the ready and terminated processes. Refer Section 3.3 </li>
+				<li><b>File Allocation Table</b>, contains details about files stored on the disk, Refer Section 5.1 </li>
+				<li> <b>Disk Free List</b>, contains details about used and used blocks in the disk, Refer Section 5.2 </li>
+				<li><b>Page Fault Handler</b>, contains the kernel code to be executed during a page fault exception, Refer Section 7.2 </li>
+				<li> <b>Timer Interrupt Routine</b>, contains the kernel code to be executed during a timer interrupt. Refer Section 7.3 </li>
+				<li><b>Interrupt Routines</b>, contains kernel code to be executed during interrupts (1 to 7). Refer Section 7.4 </li>
+				<li> <b> <tt>INIT</tt> and User Programs</b>, is the memory space allocated for user pro- grams in execution. Refer Section 3.7 </li>
 				</ul>
-				<h3>File Types</h3>
-				There are two types of files in the XSM architecture. They are:
-				<br/>
-				<h5>Data files</h5>
-					These files contain data or information that is used by the programs. They can occupy a maximum of 257 blocks (1  basic block + maximum 256 data blocks). Data files have an extension <b>.dat</b> in the filename.
-
-				<h5>Executable files</h5>
-					These contain programs that the user wishes to run on the machine. They occupy 4 blocks (1 basic block + 3 data blocks) of the disk. Executable files have an extension .xsm in the filename.
 			</article>
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top &uarr;</a>
-			</div>
+			</div>			
+			
+			
+			
+			<article id="navpromgmt" class="grid col-full">
+			<h2>Process Management</h2>
+			</article>					
+		
+				<article id="navpromgmt_intro" class="grid col-full">
+				<h4>Introduction</h4>
+				<p>Any program in its execution is called a <b>process</b>. Processes will be loaded into memory before they start their execution. Each process occupies at most 4 pages in of the memory. The processor generates logical addresses with respect to a process during execution, which is translated to the physical address. This translation is done by the machine using page tables, Refer Section 3.2 of XSM Specification</p>
+				<p>The XSM architecture supports demand paging and so the machine does not fix the number of processes that can be run on it. However XOS has limited the number of process running simultaneously to 32, due to limitations in number of PCBs in the Ready List (Refer Section~\ref{sec:pcb}) and the number of Per-Process Page Tables (Refer Section~\ref{sec:pagetable}) </p>
+				</article>			
+				<div class="up grid col-one-third" style="float:right">
+				<a href="#navtop" title="Go back up"> top &uarr;</a>
+				</div>		
+	
+				<article id="navpromgmt_prostruct" class="grid col-full">
+				<h4>Process Structure</h4>
+				A process in the memory has the following structure.
+				<ul>
+				<li><b>Code Area</b> : These are pages of the memory that contain the executable code loaded from the disk.</li>
+				<li><b>Stack</b> : This is the user stack used for program execution. The variables and data used during execution of program is stored in the stack. It grows in the direction of increasing word address.</li> 
+				</ul>
+				The structure of a process is as shown<br/>
+				<img src="doc/prostruct.png"/>
+				</article>			
+				<div class="up grid col-one-third" style="float:right">
+				<a href="#navtop" title="Go back up"> top &uarr;</a>
+				</div>		
+				
+				
+			
+				<article id="navpromgmt_pcb" class="grid col-full">
+				<h4>Process Control Block (PCB)</h4>
+				It contains data pertaining to the current state of the process. The size of the PCB is 32 words. 
+				<br/> Structure of a PCB is given below<br /><br/>
+				<table class="doctable"><tr><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7-14</th><th>15-30</th><th>31</th></tr>
+				<tr><td><tt>PID</tt></td><td><tt>STATE</tt></td><td><tt>BP</tt></td><td><tt>SP</tt></td><td><tt>IP</tt></td><td><tt>PTBR</tt></td><td><tt>PTLR</tt></td><td><tt>R0 - R7</tt></td><td><tt>Per-Process <br/>Open File Table</tt></td><td><tt>...Free...</tt></td></tr>
+				</table>			
+				
+				<br/>
+				<h5>Process Identifier (<tt>PID</tt>) </h5>	
+				The process identifier is a number from 0 to 31, which identifies the processes in memory. The PID of the current process can be calculated from the PTBR register.
+		
+				</br></br>
+					<h5>Process State (<tt>STATE</tt>)</h5>
+					The process state corresponding to a process, indicated by STATE in the PCB stores the state of that process in the memory. A process can be in one of the following states.
+					<ul>
+					<li>0 for terminated, i.e. process has completed execution</li>
+					<li>1 for ready, i.e. process is waiting for the CPU to start execution.</li>
+					<li>2 for running, i.e. the process is currently running in the CPU</li>
+					</ul>
+				
+					<h5>Registers</h5>
+					<ul>	
+					<li><tt>IP</tt>: The word address of the currently executing instruction is stored in the IP (Instruction Pointer) register. The value of this instruction cannot be changed explicitly by any instruction. </li>
+					<li><tt>BP</tt>: The base address of the user stack is stored in the BP (Base Pointer)register.</li>
+					<li><tt>SP</tt>: The address of the stack top is stored in the SP (Stack Pointer)</li>
+					<li><tt>PTBR</tt>: TThe physical address of the Per-Process Page Table of the process is stored in the PTBR (Page Table Base Register).</li>
+					<li><tt>PTLR</tt>: The length of the Per-Process Page Table (No. of entries) is stored in the PTLR (Page Table Length Register). It is fixed as 4 for every process in XOS.</li>		
+					</ul>		
+					<p>Each process has its own set of values for the various registers. Words 2 – 6 in
+	the PCB stores the values of the registers associated with the process .</p>
+	
+	
+					<h5>Per-Process Open File Table </h5>
+					The Per-Process Open File Table contains details of files opened by the corre sponding process. Every entry in this  table occupies 2 words. A maximum of 8 files can be opened by a process at a time, i.e. up to 8 entries in the PCB. It is stored in the PCB from words 15 to 30. Its structure is given below 1 word Pointer to system-wide open file table entry 1 word LSEEK position
+					</br>
+					</br>
+					<table class="doctable" style="width:50%">
+					<tr><td>Pointer to system-wide </br> open file table entry</td><td><tt>LSEEK</tt> position</td>	</tr>			
+					</table>
+					<ul>
+					<li>The OS maintains a system wide open file table which contains details of
+	all the files that are opened by processes (Refer Section 5.3). The entry
+	in the Per-Process File Table points to the System-wide Open File Table
+	entry corresponding to the file.</li>		
+					<li>
+					It also stores the LSEEK position for the file, which indicates the word in
+	the file to which the process currently points to for read/write operations.
+					</li>		
+					</ul>
+				</article>			
+				<br/><br/> <br/> 
+				<div class="up grid col-one-third" style="float:right">
+				<a href="#navtop" title="Go back up"> top &uarr;</a>
+				</div>		
+			
+				<article id="navpromgmt_readylist" class="grid col-full">
+				<h4>Ready List</h4>
+				<p>The list of PCBs stored in the memory is used as a Ready List by the operating system to schedule processes to CPU. The STATE in the PCB indicates whether a process is ready for execution or not. A new process in memory is scheduled for execution by circularly traversing through the list of PCBs stored in memory and selecting the first Ready process after the PCB of the currently running process in the list.</p>
 
-
-
-			<div class="up grid col-one-third ">
-			<a href="#navtop" title="Go back up">&uarr;</a>
-			</div>
-			<article id="navfat" class="grid col-full">		
-			<h2>File Allocation Table (FAT)</h2> 
-			File allocation table (FAT) is a table that has an entry for each file present in the disk. FAT of the filesystem consists of 64 entries. Thus there can be a maximum of 64 files.
-			<ul>
-			<li<Each entry is of size 8 words. </li>
-			<li>Total size of the FAT is thus 512 words, which occupies 1 block.</li>
-			<li>It is a disk data structure and occupies block number 10 on the disk.</li>
-			</ul>
-				<h4>Structure of FAT</h4>
-				The structure of a FAT entry is shown below: <br/>
-				<table class="doctable">
-				<tr><th>0</th><th>1</th><th>2</th><th>3  - 7</th> </tr>
-				<tr><td> File Name </td> <td> File Size </td> <td> Block# of Basic Block </td> <td> ... </td> </tr>
-				<tr></tr>
+				<table class="doctable" style="width:50%">
+				<tr><td>Physical Page Number</td><td> Auxiliary Information</td>	</tr>			
 				</table>
+				</br>
+	<p>  
+A	 maximum of 32 PCBs can be stored in the memory, and hence the maximum number of processes that can be run simultaneously is limited to 32. The PCB list is stored in pages 3 and 4 in the memory (words 1536 – 2559)
+</p>
+				</article>			
+				<div class="up grid col-one-third" style="float:right">
+				<a href="#navtop" title="Go back up"> top &uarr;</a>
+				</div>		
 
-				<br/><br/>
-				The FAT entry consists of  <br/>
-				1. <b>File Name</b> : It is an identification of a file. It can be of maxi-
-				mum 15 characters (and thus requires 1 word). Typical file names are
-				student.dat, calc.xsm.
-				<br/>
-				2. <b>File Size</b> : It indicates the number of words required for the data
-				blocks of the file. The number of data blocks of the file can vary from
-				0 to 256, and so the maximum file size is 131072 words (256 × 512).
-				It occupies one word in the FAT entry. <br/>
-				3. <b>Block number of basic block</b> : It contains the block number where
-				the basic block of a file resides in the disk. It occupies one word in the
-				FAT entry.
+				<article id="navpromgmt_pagetbl" class="grid col-full">
+				<h4>The Per-Process Page Tables</h4>
+				<p>TEvery process in XOS has a Per-Process Page Table. A total of 32 PCBs and 32 Page Tables in total are  available, 		which limits the number of processes that can be run to 32.</p>
+				<p>  
+				The Per-Process Page Table stores the physical page number corresponding to each logical page associated with the process. The logical page number can vary from 0 to 3 for each process. Therefore, each process has 4 entries in the page table. Per-Process Page Tables are stored in Page 2, words 1024 – 1279 in the memory (256 words = 32 processes × 4 pages )
+				</p>
+				<p>
+					When a process is loaded only the disk addresses of the program are stored, and by demand paging (Refer Section 4.2) pages are loaded/allocated for the process. Once all pages are loaded, each entry contains the page number where the data specified by the logical address resides in the memory and auxiliary information which includes valid/invalid bit, reference bit etc.
+				</p>
+				</article>			
+				<div class="up grid col-one-third" style="float:right">
+				<a href="#navtop" title="Go back up"> top &uarr;</a>
+				</div>	
+
+				<article id="navpromgmt_multiprog" class="grid col-full">
+				<h4>Multiprogramming</h4>
+				<p>The operating system allows multiple processes to be run on the machine and manages the system resources among these processes. This process of simultaneous execution of multiple processes is known as multiprogramming.
+				</p>
+				<p>  
+				To support multiprogramming in the system, the kernel makes use of the scheduler which is present in the Timer Interrupt Service Routine in Page 8 of the memory.
+				</p>
+				</article>			
+				<div class="up grid col-one-third" style="float:right">
+				<a href="#navtop" title="Go back up"> top &uarr;</a>
+				</div>	
+				
+				<article id="navpromgmt_init" class="grid col-full">
+				<h4><tt>INIT</tt> and other user programs</h4>
+The INIT process is the first user program that is loaded by the OS after start up. The INIT and other user processes uses the memory pages 16 - 63 for execution (Code Area and Stack).
+
+				</article>			
+				<div class="up grid col-one-third" style="float:right">
+				<a href="#navtop" title="Go back up"> top &uarr;</a>
+				</div>	
+			<br/><br/>
+				
+				
+			<article id="navmemmgmt" class="grid col-full">
+			<h2>Memory Management</h2>
+			</article>					
+		
+				<article id="navmemmgmt_intro" class="grid col-full">
+				<h4>Introduction</h4>
+				<p>XSM uses a paging mechanism for address translation (Refer Section 3.2 of XSM Specification). XOS supports virtual memory, i.e. it supports execution of processes that are not completely in memory. It follows pure demand paging strategy for memory management. Pages are allocated as and when required during execution.
+				</p>
+				</article>			
+				<div class="up grid col-one-third" style="float:right">
+				<a href="#navtop" title="Go back up"> top &uarr;</a>
+				</div>		
+	
+				<article id="navmemmgmt_paging" class="grid col-full">
+				<h4>Paging</h4>
+				<p>Paging is the memory management scheme that permits the physical address space of a process to be non-contiguous. Each process has its own page table (Refer Section 3.5), which is used for paging.
+				</p>
+				<p>Paging is the memory management scheme that permits the physical address space of a process to be non-contiguous. Each process has its own page table (Refer Section 3.5), which is used for paging.
+				</p>
+				<p>The Per-Process Page Table contains information relating to the actual location in the memory. Each valid entry of a page table contains the page number in the memory where the data specified by the logical address resides. The address of Page Table of the currently executing process is stored in PTBR and length of the page table is set to 4 in PTLR of the machine. 
+				</br>
+				The structure of an entry in the page table is given below.
+				</p>
+				<table class="doctable" style="width:50%">
+				<tr><td>Physical Page Number</td><td>Auxiliary Information</td>	</tr>			
+				</table>
+				
+				<ul>
+				<li><i>Physical Page Number</i>: The logical page numbers generated by the CPU for a process can be in the range 0 to 3. The actual location of these logical pages are given by the physical page number. Address translation is done by the machine (Refer Section 3.2 of XSM Specification) </li>				
+				<li><i>Auxiliary Information:</i>: The logical page numbers generated by the CPU for a process can be in the range 0 to 3. The actual location of these logical pages are given by the physical page number. Address translation is done by the machine (Refer Section 3.2 of XSM Specification)  </li>		
+					<img src="doc/auxinfo.png" />
+					<ul>
+					<li> <i>Valid/Invalid Bit (VI) </i> is a value 1 or 0 for valid and invalid respectively. It is valid if and only if the entry is a physical memory location. It is invalid if either the entry points to location on the disk or if its not in the logical address space of the process.</li>
+					<li> <i>Reference Bit (R)</i>: This bit is set to 1 by the machine every time a page is accessed. This bit is used for page replacement (Refer Section 7.2) by the OS
+					</li>
+					</ul>		
+				</ul>
+				</article>			
+				<div class="up grid col-one-third" style="float:right">
+				<a href="#navtop" title="Go back up"> top &uarr;</a>
+				</div>		
+				
+				
+			<article id="navmemmgmt_mfl" class="grid col-full">
+				<h4>Memory Free List</h4>
+				<p>PThe free list of the memory consists of 64 entries. Each entry is of size one word. Thus, the total size of the free list is thus 64 words. It is present in words 1280 to 1343 in memory. (words 256 to 319 of Page ) of the memory. Refer Chapter 2. Each entry of the free list contains a value of either 0 or 1 indicating whether the corresponding page in the memory is free or not respectively.</p>
 			</article>
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top &uarr;</a>
-			</div>
-
-			<article id="navdfl"  class="grid col-full">			
-		<h2>Disk Free List</h2>
-			The Disk Free List is a data structure used for keeping tracking of unused blocks in the disk.
-			<ul>
-			<li>The Free List of the disk consists of 512 entries. Each entry is of size
-			one word.</li>
-			<li>The size of the free list is thus 1 block or 512 words.<li>
-			<li>It is present in blocks 11 of the disk. Refer figure 1.</li>
-			<li>For each block in the disk there is an entry in the Disk Free List which
-			contains a value of either 0 or 1 indicating whether the corresponding
-			block in the disk is free or used respectively. Each entry in the Disk
-			Free List is of size one word.</li>
-			<li>Blocks 0 to 12 are system reserved and are marked as 1 in the Disk
-			Free List so that they cannot be used for saving user files. The file
-			system also ensures that user files are not stored on the Swap Area.</li>
-			</ul>
+			</div>	
+			
+			<article id="navmemmgmt_vm" class="grid col-full">
+				<h4>Virtual Memory</h4>
+				<p>XOS allows virtual memory management, i.e. running processes without having all the pages in memory. It makes use of a backing store or swap in the disk to replace pages from the memory and allocate the emptied memory to another process. This increases the total number of processes that can be run simulta neously on the OS.</p>
+				<p>
+				XOS starts executing a process with no pages of that process in memory. Pages are loaded into the memory from the disk only when it is required by the CPU. This strategy is known as pure demand paging. The page table is loaded with the disk address of the data blocks corresponding to the process and all entries are set as invalid and not referenced initially (‘00’ as auxiliary information).		</p>
+				<p>
+				Page Fault Exceptions occur when a required page is not currently loaded into the memory. In this case the Exception Handler Routine is responsible for loading the required page to the memory from the disk. If no free memory is available a page replacement technique is used to find a victim page. The page replacement technique used in XOS is a second chance algorithm(Refer Silberschatz, Galvin, Gagne: Operating System Concepts) which uses the reference 12 bits in the auxiliary information. The victim page is swapped out to to the disk (swap area) to accommodate the required page.</p>
 			</article>
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top &uarr;</a>
-			</div>
-			</div> <!-- 100%articles-->
+			</div>	
+		
+File allocation table (FAT) is a table that has an entry for each file present in
+the disk. FAT is stored in page number 5 in the memory.
+
+			<article id="navfiles" class="grid col-full">
+			<h2>Files</h2>
+			<p>The operating system requires accessing the file system (XFS) while loading programs, and reading data from the files. The operating system maintains a memory copy of the file system data structures like FAT(File Allocation Table) and Disk Free List (Refer Chapter 2). It is loaded from the disk to the memory during operating system boot. </p>
+			<p>
+Apart from the file system data structures XOS maintains details about files opened by all processes in the System-wide Open File Table. XOS uses a scratchpad to access files in the memory which will be explained further in this chapter.	</p>
+			</article>	
+			
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>		
+			
+			<article id="navfiles_fat" class="grid col-full">
+			<h2>File Allocation Table</h2>
+			<p> <i>File allocation table (FAT)</i> is a table that has an entry for each file present in the disk. FAT is stored in page number 5 in the memory. </p>
+			<p>The structure of FAT entry is given below</p>
+			</article>	
+			
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>		
+	
+		
+						
+		</div> <!-- 100%articles-->
 
 		
 		</section>	
@@ -341,3 +431,4 @@ basic block are marked as 0 </li>
 </script>
 </body>
 </html>
+
