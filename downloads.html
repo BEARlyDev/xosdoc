@@ -74,26 +74,78 @@
 					    <li><a href="#tab1">SPL Compiler</a></li>
 					    <li><a href="#tab2">APL Compiler</a></li>
 					    <li><a href="#tab3">XFS Interface</a></li>
-					    <li><a href="#tab3">XSM Simulator</a></li>
+					    <li><a href="#tab4">XSM Simulator</a></li>
 					</ul>
 					<div class="tab_container">
 					    <article id="tab1" class="tab_content">
-					        <p>SPL or System Programmer's Language is a high level language for programming XOS. The compiler can be downloaded from <a href="files/spl-compilerv1_0.tar.gz">here</a></p>
-
+					        <p>SPL or System Programmer's Language is a high level language for programming XOS.  </p>
+					    <h5> Prerequisites </h5>
+					    <ul>
+					    <li> GCC </li>
+					    <li> Flex / Lex </li>
+					    <li> Bison / Yacc </li>
+					    </ul>
+					    <h5> Using the compiler </h5>
+					    
+					    1.  <tt> make </tt> </li> <br/>
+					    2. <tt> ./spl < <i>path-to-file</i> </tt></li> <br/>
+					    </ol>
+					    </br></br>
+					    <a href="files/spl-master.zip" class="button"> Download </a>
 					    </article>
 					    
 						<article id="tab2" class="tab_content">
-					        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
+		        		<p> APL or Application Programmer's Language is a high level language for writing application programs which run on XOS (Experimental Operating System).   </p>
+					    <h5> Prerequisites </h5>
+					    <ul>
+					    <li> GCC </li>
+					    <li> Flex / Lex </li>
+					    <li> Bison / Yacc </li>
+					    </ul>
+					    <h5> Using the compiler </h5>
+					    
+					    1.  <tt> make </tt> </li> <br/>
+					    2. <tt> ./apl < <i>path-to-file</i> </tt></li> <br/>
+					    </ol>
+					    </br></br>
+					    <a href="files/apl-master.zip" class="button"> Download </a>
 					    </article>
 					    
 					    <article id="tab3" class="tab_content">
-				    		<h6>Heading</h6>
-				            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
+				        <p> XFS-Interface is used an interface to access XFS Filesystem from UNIX. The interface has functionalities to load, remove, copy, and list files in an XFS formatted disk.   </p>
+					    <h5> Prerequisites </h5>
+					    <ul>
+					    <li> GCC </li>
+					    </ul>
+						<h5> Using the interface </h5>
+					    
+					    1.  <tt> make </tt> </li> <br/>
+					    2. <tt> ./fileSystem </tt> <br/>
+					    3. Type <tt>"help"</tt> for list of commands.
+					    </ol>
+					    </br></br>
+					    <a href="files/xfs-interface-master.zip" class="button"> Download </a>
+					    
 					    </article>
 					    
 						<article id="tab4" class="tab_content">
-				    		<h6>Heading</h6>
-				            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
+				        <p>XSM Machine simulator simulates XSM hardware. </p>
+				  	  	<h5> Prerequisites </h5>
+				  		<ul>
+					    <li> GCC </li>
+					    <li> Flex / Lex </li>
+					    <li> Bison / Yacc </li>
+					    </ul>
+						<h5> Running the machine simulator </h5>
+					    
+					    1.  <tt> make </tt> </li> <br/>
+					    2. <tt> ./xsm  < path-to-disk-file </tt> <br/>
+					    </ol>
+					    </br></br>
+					    <a href="files/xsm-master.zip" class="button"> Download </a>
+					    					    
+
+					   
 					    </article>
 					 </div>
 				  </div>
