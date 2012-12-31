@@ -58,7 +58,7 @@
 
 		<header class="grid col-full">
 			<hr>
-			<p class="fleft">File System (XFS)</p>
+			<p class="fleft">System Programmer’s Language (SPL)</p>
 		</header>
 
 
@@ -66,11 +66,35 @@
 		
 			<menu>
 				<ul>
-					<li><a href="#navintro" class="sec" >Intro</a></li>
-					<li><a href="#navdiskorg" class="sec">Disk Organization</a></li>
-					<li><a href="#navfile" class="sec">File</a></li>
-					<li><a href="#navfat" class="sec" >File Allocation Table (FAT)</a></li>				
-					<li><a href="#navdfl" class="sec" >Disk Free Lists</a></li>
+					<li><a href="#navintro" class="sec" >Introduction</a></li>
+					<li><a href="#navlex" class="sec" >Lexical Elements</a></li>
+						<li><a href="#navlex" class="subsec" >Comments and White Spaces</a></li>
+						<li><a href="#navkeywords" class="subsec" >Keywords</a></li>
+						<li><a href="#navoperators" class="subsec" >Operators and Delimiters</a></li>
+						<li><a href="#navregisters" class="subsec" >Registers</a></li>
+						<li><a href="#navidentifiers" class="subsec" >Identifiers</a></li>
+						<li><a href="#navliterals" class="subsec" >Literals</a></li>
+					<li><a href="#navregset" class="sec" >Register Set</a></li>
+						<li><a href="#navalias" class="subsec" >Aliasing</a></li>
+					<li><a href="#navconst" class="sec" >Constants</a></li>
+						<li><a href="#navpreconst" class="subsec" >Predefined Constants</a></li>
+					<li><a href="#navexpressions" class="sec" >Expressions</a></li>
+						<li><a href="#navarithexp" class="subsec" >Arithmetic Expressions</a></li>
+						<li><a href="#navlogicexp" class="subsec" >Logical Expressions</a></li>
+						<li><a href="#navstringcomp" class="subsec" >String Comparison</a></li>
+						<li><a href="#navaddrexp" class="subsec" >Addressing Expressions</a></li>
+					<li><a href="#navstatements" class="sec" >Statements</a></li>
+						<li><a href="#navdefinestmt" class="subsec" >Define Statement</a></li>
+						<li><a href="#navaliasstmt" class="subsec" >Alias Statement</a></li>
+						<li><a href="#navassignstmt" class="subsec" >Assignment Statement</a></li>
+						<li><a href="#navstrcpystmt" class="subsec" >strcpy Statement</a></li>
+						<li><a href="#navifstmt" class="subsec" >If Statement</a></li>
+						<li><a href="#navwhilestmt" class="subsec" >While Statement</a></li>
+						<li><a href="#navbreakstmt" class="subsec" >Break Statement</a></li>
+						<li><a href="#navcontinuestmt" class="subsec" >Continue Statement</a></li>
+						<li><a href="#naviretstmt" class="subsec" >ireturn Statement</a></li>
+						<li><a href="#navlsstmt" class="subsec" >Load/Store Statement</a></li>
+						<li><a href="#navbreakpointstmt" class="subsec" >breakpoint Statement</a></li>
 				</ul>
 			</menu>
 		</aside>
@@ -82,166 +106,324 @@
 			<div class="grid-wrap">
 			<article  id="navintro" class="grid col-full">
 				<h2>Introduction</h2>
-				<p>
-				XFS or Experimental File System is a file system architecture designed for XOS (Experimental Operating System). 
-				XFS is a simple filesystem which has no directory structure. </br>
-				XFS spans the entire disk in XSM (Experimental String Machine). 
-				The disk consists of a linear sequence of 512 blocks. 
-				The basic unit of disk in XSM is a <b><i>block</i></b>. 
-				The size of the block is equal to that of page in memory (512 words). 
-				The total capacity of the disk is 512 * 512  = <b>262144</b> words. </br>
-				Any particular block in the disk is addressed by the corresponding number in the sequence 0 to 511 known as the <em>block number</em>. 
-
-				</p>
+				<p>	<b>SPL</b> or <i>System Programmer’s Language</i> is an untyped programming language designed for implementation of an operating system on <b>XSM</b> 
+				<i>(Experimental String Machine)</i> architecture. The language is minimalistic and consists only of basic constructs required for the implementation. 
+				Programming using SPL requires a basic understanding of the underlying XSM architecture and operating system concepts.</p>
 			</article>
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top &uarr;</a>
 			</div>			
 			
-			<article id="navdiskorg" class="grid col-full">			
-				<h2>Disk Organization</h2>
-				<p>The disk is organized by the file system as shown below.</p>
-				
-				<table class="doctable">
-					<tr> <th>Block No</th> <th>Contents</th> </tr>
-					<tr> <td>0</td> <td>OS Startup Code</td> </tr>
-					<tr> <td>1</td> <td>Page Fault Handler</td> </tr>
-					<tr> <td>2</td> <td>Timer Interrupt Routine </td> </tr>
-					<tr> <td>3</td> <td>Interrupt 1 Routine </td> </tr>
-					<tr> <td>...</td> <td>...</td> </tr>
-					<tr> <td>9</td> <td>Interrupt 7 Routine </td> </tr>
-					<tr> <td>10</td> <td>File Allocation Table (FAT) </td> </tr>
-					<tr> <td>11</td> <td>Disk Free List </td> </tr>
-					<tr> <td>12</td> <td>Unallocated </td> </tr>
-					<tr> <td>13 -- 15</td> <td>INIT Code </td> </tr>
-					<tr> <td>16 -- 447</td> <td>User Blocks </td> </tr>
-					<tr> <td>448 -- 511</td> <td>Swap Area </td> </tr>
-				</table>
-				
-				<br/><br/>
-				<ul style="list-style-type:disc">
-					<li> <p> <b>OS Startup Code</b> : Block 0 is the location of operating system code required during machine boot.  </p> </li>
-					<li> <p> <b>Exception and Interrupt Handler</b> : Blocks from 1 - 9 is intended for ISR (Interrupt Service Routines) for interrupt and exception handling which is done by the Operating System. </p> </li>
-					<li> <p> <b>FAT</b> or File Allocation table contains details about the files stored on the disk. </p> </li>
-					<li> <p> <b>Disk Free List</b> has 512 entries, one entry for each block in the disk, indicating whether it is used or unused. </p> </li>
-					<li> <p> <b>INIT</b> Code It has the code for INIT process, which is the first user program run by the OS after startup. </p> </li>
-					<li> <p> <b>User Blocks</b>. Blocks from 16 to 447 are used to store user data files and user programs. </p> </li>
-					<li> <p> <b>Swap Area</b> The file system also provides a swap area for the operating system to implement demand paging. Swap Area is reserved exclusively for use by the operating system. </p> </li>
-				</ul>
+			<article  id="navlex" class="grid col-full">
+				<h2>Lexical Elements</h2>
+				<h4>Comments and White Spaces</h4>
+				<p> SPL allows only single line comments. Comments start with the character sequence // and stop at the end of the line. 
+				White spaces in the program including tabs, newline and horizontal spaces are ignored.</p>
 			</article>
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top &uarr;</a>
-			</div>
-
+			</div>	
 			
-			<article id="navfile" class="grid col-full">			
-				<h2>File</h2>
-				<p>A file is a collection of blocks identified by a name. 
-				Every file in the disk has a <i>Basic Block</i> and several <i>Data Blocks</i>. 
-				They are defined as follows:</p>
-				<ul style="list-style-type:disc">
-					<li><p> <b>Data Blocks</b> : These blocks contain the actual data of a file. </p></li>
-					<li><p> <b>Basic Block</b> : It consists of information about the data in a file. </p>
-						<table class="doctable">
-							<tr> <td><b>Index</b></td> <td> 0--255 </td><td> 256--511 </td></tr>
-							<tr> <td><b>Content</b></td> <td> Block List </td><td> Header </td></tr>
-						</table>
-						<br/>
-						<ul>
-							<li> <b>Block List</b> : It contains block addresses of all data blocks in the file.
-								<ul>
-									<li>The block list consists of 256 entries.</li>
-									<li>Each entry is of size one word.</li>
-									<li>The value contained in an entry of the block list gives the	block number of the corresponding data block in the disk.
-									All invalid entries are marked with 0.</li>
-								</ul>
-							</li>
-							<li> <b>Header</b>  The header contains the meta information relating to the file. The header fields is 256 words long. It can be used to store details like permissions, ownership etc related to a file, similar to inode in Linux and UNIX operating systems. However XOS does not use the header field.
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<img src="doc/address_translation.png" width="20%" />
-				<br/><b> Example </b>
-				<ul>
-					<li>Consider the example illustrated by figure 3. From the figure, we infer the following.</li>
-					<li>The zeroth data block of the file resides in the disk in block number 240</li>
-					<li>The first data block of the file resides in the disk in block number 420. The second data block of the file resides in the disk in block number  The third data block of the file resides in the disk in block number 315 </li>
-					<li> There are no more data blocks for the file. So rest of the entries of the
-basic block are marked as 0 </li>
-				</ul>
-				<h3>File Types</h3>
-				There are two types of files in the XSM architecture. They are:
-				<br/>
-				<h5>Data files</h5>
-					These files contain data or information that is used by the programs. They can occupy a maximum of 257 blocks (1  basic block + maximum 256 data blocks). Data files have an extension <b>.dat</b> in the filename.
-
-				<h5>Executable files</h5>
-					These contain programs that the user wishes to run on the machine. They occupy 4 blocks (1 basic block + 3 data blocks) of the disk. Executable files have an extension .xsm in the filename.
-			</article>
-			<div class="up grid col-one-third" style="float:right">
-			<a href="#navtop" title="Go back up"> top &uarr;</a>
-			</div>
-
-
-
-			<div class="up grid col-one-third ">
-			<a href="#navtop" title="Go back up">&uarr;</a>
-			</div>
-			<article id="navfat" class="grid col-full">		
-			<h2>File Allocation Table (FAT)</h2> 
-			File allocation table (FAT) is a table that has an entry for each file present in the disk. FAT of the filesystem consists of 64 entries. Thus there can be a maximum of 64 files.
-			<ul>
-			<li<Each entry is of size 8 words. </li>
-			<li>Total size of the FAT is thus 512 words, which occupies 1 block.</li>
-			<li>It is a disk data structure and occupies block number 10 on the disk.</li>
-			</ul>
-				<h4>Structure of FAT</h4>
-				The structure of a FAT entry is shown below: <br/>
-				<table class="doctable">
-				<tr><th>0</th><th>1</th><th>2</th><th>3  - 7</th> </tr>
-				<tr><td> File Name </td> <td> File Size </td> <td> Block# of Basic Block </td> <td> ... </td> </tr>
-				<tr></tr>
+			<article  id="navkeywords" class="grid col-full">
+				<h4>Keywords</h4>
+				<p>	The following are the reserved words in SPL and it cannot be used as identifiers.
+				<tt>
+				<table style="text-align:center; width:50%">
+					<tr><td>alias </td> <td>else</td> <td>if</td> <td>store</td> <td>while</td></tr>
+					<tr><td>define</td> <td>endif </td> <td>ireturn</td> <td>strcmp</td> <td>continue</td></tr>
+					<tr><td>break</td> <td>do</td> <td>endwhile</td> <td>load</td> <td>then</td></tr>
 				</table>
-
-				<br/><br/>
-				The FAT entry consists of  <br/>
-				1. <b>File Name</b> : It is an identification of a file. It can be of maxi-
-				mum 15 characters (and thus requires 1 word). Typical file names are
-				student.dat, calc.xsm.
-				<br/>
-				2. <b>File Size</b> : It indicates the number of words required for the data
-				blocks of the file. The number of data blocks of the file can vary from
-				0 to 256, and so the maximum file size is 131072 words (256 × 512).
-				It occupies one word in the FAT entry. <br/>
-				3. <b>Block number of basic block</b> : It contains the block number where
-				the basic block of a file resides in the disk. It occupies one word in the
-				FAT entry.
+				</tt></p>
 			</article>
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top &uarr;</a>
-			</div>
-
-			<article id="navdfl"  class="grid col-full">			
-		<h2>Disk Free List</h2>
-			The Disk Free List is a data structure used for keeping tracking of unused blocks in the disk.
-			<ul>
-			<li>The Free List of the disk consists of 512 entries. Each entry is of size
-			one word.</li>
-			<li>The size of the free list is thus 1 block or 512 words.<li>
-			<li>It is present in blocks 11 of the disk. Refer figure 1.</li>
-			<li>For each block in the disk there is an entry in the Disk Free List which
-			contains a value of either 0 or 1 indicating whether the corresponding
-			block in the disk is free or used respectively. Each entry in the Disk
-			Free List is of size one word.</li>
-			<li>Blocks 0 to 12 are system reserved and are marked as 1 in the Disk
-			Free List so that they cannot be used for saving user files. The file
-			system also ensures that user files are not stored on the Swap Area.</li>
-			</ul>
+			</div>	
+			
+			<article  id="navoperators" class="grid col-full">
+				<h4>Operators and Delimiters</h4>
+				<p>	The following are the operators and delimiters in SPL
+				<table style="text-align:center; width:50%">
+					<tr> <td>(</td> <td>)</td> <td>;</td> <td>[</td> <td>]</td> <td>/</td> <td>*</td> <td>+</td> <td>-</td> <td>%</td> </tr>
+					<tr> <td>></td> <td><</td> <td>>=</td> <td><=</td> <td>!=</td> <td>==</td> <td>=</td> <td>&&</td> <td>||</td> <td>!</td> </tr>
+				</table>
+				</p>
 			</article>
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top &uarr;</a>
-			</div>
+			</div>	
+			
+			<article  id="navregisters" class="grid col-full">
+				<h4>Registers</h4>
+				<p>	SPL allows the use of 21 registers for various operations. (<tt>R0-R15, BP, SP, IP, PTBR, PTLR</tt>)</p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navidentifiers" class="grid col-full">
+				<h4>Identifiers</h4>
+				<p>	Identifiers are used as symbolic names for constants and aliases for registers.
+				Identifiers should start with an alphabet but may contain alphabets, digits and/or underscore ( _ ). 
+				No other special characters are allowed in identifiers.</p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navliterals" class="grid col-full">
+				<h4>Literals</h4>
+				<p>	Only integer literals are permitted in SPL. An integer literal is a sequence of digits representing an integer. 
+				Negative integers are represented with a negative sign preceding the sequence of digits.</p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navregset" class="grid col-full">
+				<h2>Register Set</h2>
+				<p>	SPL doesn’t allow the use of declared variables. Instead a fixed set of registers is provided. 
+				The register set in SPL contains 26 registers. There is a direct mapping between these registers and the machine registers in XSM.</p>
+				
+				<img src="doc/register-set.png" style="width:40%"/>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navalias" class="grid col-full">
+				<h4>Aliasing</h4>
+				<p>	Any register can be referred to by using a different name. A name is assigned to a particular register using the <b>alias</b> keyword. 
+				Each register can be assigned to only one alias at any particular point of time. However, a register can be reassigned to a different alias at a later point. 
+				Aliasing can also be done inside the <b>if</b> and <b>while</b> block. However, the alias will only be valid within the if and while block it is defined in. 
+				The already defined alias for the register(if any) will only be hidden inside if and while blocks. No two registers can have the same alias name simultaneously.</p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navconst" class="grid col-full">
+				<h2>Constants</h2>
+				<p>	Symbolic names can be assigned to values using the <b>define</b> keyword. 
+				Unlike aliasing, two or more names can be assigned to the same value. 
+				A constant can only be defined once in a program.</p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navpreconst" class="grid col-full">
+				<h4>Predefined Constants</h4>
+				<p>	SPL provides a set of predefined constants. 
+				These predefined constants can be assigned to different values explicitly by the user using <b>define</b> keyword.
+				These constants are mostly starting addresses of various OS components in the memory.
+				The predefined set of constants provided in SPL are</p>
+				
+				<img src="doc/predefined-constants.png" style="width:40%"/>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navexpressions" class="grid col-full">
+				<h2>Expressions</h2>
+				<p>	An expression specifies the computation of a value by applying operators to operands. SPL supports arithmetic and logical expressions.</p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navarithexp" class="grid col-full">
+				<h4>Arithmetic Expressions</h4>
+				<p>	Registers, constants, and 2 or more arithmetic expressions connected using arithmetic operators are categorized as arithmetic expressions. 
+				SPL provides five arithmetic operators, viz., +, -, *, / (Integer Division) and % (Modulo operator) through which arithmetic expressions may be combined. 
+				Expression syntax and semantics are similar to standard practice in programming languages and normal rules of precedence, associativity and paranthesization hold.</p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navlogicexp" class="grid col-full">
+				<h4>Logical Expressions</h4>
+				<p>	Logical expressions may be formed by combining arithmetic expressions using relational operators. 
+				The relational operators supported by SPL are<br/>
+				<tt>
+				>, <, >=, <=, !=, ==
+				</tt><br/>
+				Standard meanings apply to these operators. A relational operator will take in two arguments and return 1 if the relation is valid and 0 otherwise.
+				Logical expressions themselves may be combined using logical operators, && (logical and) , || (logical or) and ! (not).</p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navstringcomp" class="grid col-full">
+				<h4>String Comparison</h4>
+				<p>	The only operation that can be performed on strings stored in memory is string camparison. 
+				<b>strcmp</b> is used to compare two strings whose address is stored in the registers that are given as operands.<br/>
+				e.g. <tt>strcmp(R2,R5)</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navaddrexp" class="grid col-full">
+				<h4>Addressing Expressions</h4>
+				<p>	Memory of the meachine can be directly accessed in an SPL program. 
+				A word in the memory is accessed by specifying the addressing element, i.e. memory location within [ ]. 
+				This corresponds to the value stored in the given address. An arithmetic expression or an addressing expression can be used to specify the address.<br/>
+				Examples of addressing expressions:<br/>
+				<tt>[1024], [R3], [R5+[R7]+128], [FAT + R2] </tt>etc.</p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navstatements" class="grid col-full">
+				<h2>Statements</h2>
+				<p>	Statements control the execution of the program. All statements in SPL are terminated with a semicolon ;</p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navdefinestmt" class="grid col-full">
+				<h4>Define Statement</h4>
+				<p>	Define statement is used to define a symbolic name for a value. Define statements should be used before any other statment in an SPL program. 
+				The keyword <b>define</b> is used to associate a literal to a symbolic name.<br/>
+				
+				<tt>&nbsp&nbsp&nbsp <b>define</b> constant name value;</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navaliasstmt" class="grid col-full">
+				<h4>Alias Statement</h4>
+				<p>	An <b>alias</b> statement is used to associate a register with a name. 
+				Alias statements can be used anywhere in the program except within <b>if</b> and <b>while</b> statements.<br/>
+				
+				<tt>&nbsp&nbsp&nbsp <b>alias</b> alias_name register_name ;</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navassignstmt" class="grid col-full">
+				<h4>Assignment Statement</h4>
+				<p>	The SPL assignment statement assigns the value of an expression or value stored in a memory address to a register or a memory address. 
+				= is the assignment operator used in SPL. The operand on the right hand side of the operator is assigned to the left hand side. 
+				The general syntax is as follows<br/>
+				
+				<tt>&nbsp&nbsp&nbsp Register / Alias / [Address] = Expression / [Address] ;</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navstrcpystmt" class="grid col-full">
+				<h4>strcpy Statement</h4>
+				<p>	The SPL <b>strcpy</b> statement copies a string in one memory location to another memory location. 
+				Registers which store the memory location of the destination and the source are given as Rd and Rs respectively.<br/>
+				
+				<tt>&nbsp&nbsp&nbsp <b>strcpy</b>(Rd, Rs);</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navifstmt" class="grid col-full">
+				<h4>If Statment</h4>
+				<p>	<b>If</b> statements specify the conditional execution of two branches according to the value of a logical expression. 
+				If the expression evaluates to 1, the <b>if</b> branch is executed, otherwise the <b>else</b> branch is executed. The <b>else</b> part is optional. 
+				The general syntax is as follows<br/>
+				
+				<tt>&nbsp&nbsp&nbsp
+				<b>if</b> (logical expression) <b>then</b><br/>
+					&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp statements;<br/>
+				<b>&nbsp&nbsp&nbsp else</b><br/>
+					&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp statements;<br/>
+				<b>&nbsp&nbsp&nbsp endif</b>;</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navwhilestmt" class="grid col-full">
+				<h4>While Statement</h4>
+				<p>	<b>While</b> statement iteratively executes a set of statements based on a condition. 
+				The condition is defined using a logical expression. 
+				The statements are iteratively executed as long as the condition is true.<br/>
+				
+				<tt>&nbsp&nbsp&nbsp
+				<b>while</b> (logical expression) <b>do</b><br/>
+					&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp statements;<br/>
+				<b>&nbsp&nbsp&nbsp endwhile</b>;</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navbreakstmt" class="grid col-full">
+				<h4>Break Statement</h4>
+				<p>	<b>Break</b> statement is a statement which is used in a while loop block. 
+				This statement stops the execution of the loop in which it is used and passes the control of execution to the next statement after the loop. 
+				This statement cannot be used anywhere else other than while loop. The syntax is as follows<br/>
+				
+					<tt>&nbsp&nbsp&nbsp<b>break</b> ;</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navcontinuestmt" class="grid col-full">
+				<h4>Continue Statement</h4>
+				<p>	<b>Continue statement</b> is a statement which is also used only in a while loop block. 
+				This statement skips the current iteration of the loop and passes the control to the next iteration after checking the loop condition. 
+				The syntax is as follows<br/>
+					
+					<tt>&nbsp&nbsp&nbsp<b>continue</b> ;</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="naviretstmt" class="grid col-full">
+				<h4>ireturn Statement</h4>
+				<p>	<b>ireturn</b> statement is used to pass control from kernel mode to user mode.
+				The <b>ireturn</b> is generally used at the end of an interrupt code.<br/>
+				
+					<tt>&nbsp&nbsp&nbsp<b>ireturn</b>;</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			<article  id="navlsstmt" class="grid col-full">
+				<h4>Load/Store Statement</h4>
+				<p>	Loading and storing between filesystem and memory is accomplished using <b>load</b> and <b>store</b> statements in SPL. 
+				<b>load</b> statement loads the block specified by <i>block_number</i> from the disk to the the page speficied by the <i>page_number</i> in the memory. 
+				<b>store</b> statement stores the page specified by <i>page_number</i> in the memory to the the block speficied by the <i>block_number</i> in the disk.
+				The <i>page_number</i> and <i>block_number</i> can be specified using arithmetic expressions.<br/>
+				
+				<tt>&nbsp&nbsp&nbsp
+					<b>load</b> (page_number, block_number);<br/>
+					&nbsp&nbsp&nbsp&nbsp<b>store</b> (page_number, block_number);</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+
+			<article  id="navbreakpointstmt" class="grid col-full">
+				<h4>breakpoint Statement</h4>
+				<p>	<b>breakpoint</b> statement displays the contents of registers and memory locations at the point where the statement is used.<br/>
+				
+					<tt>&nbsp&nbsp&nbsp<b>breakpoint</b>;</tt></p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>	
+			
+			
 			</div> <!-- 100%articles-->
 
 		
